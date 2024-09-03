@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Webshop.Shared.Models.ViewModel.OrderModels.OrderViewModel>
+
+@{
+    ViewData["Title"] = "MyOrders";
+}
+
+<h3>My Orders</h3>
+
+<p>
+    <a asp-action="Categories">Add New Order</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+            <th>
+                Controls
+            </th>
+            <th>
+                Comment
+            </th>
+            <th>
+                Rating
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Message)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "MyOrder", new { id=item.Id }) |
+                @Html.ActionLink("Cancel", "CancelOrder", new { id = item.Id }) |
+                @Html.ActionLink("Add Rating", "AddBuyerFeedback", new { orderId = item.Id })
+            </td>
+            <td>
+                @if (item.BuyerFeedbacks != null && item.BuyerFeedbacks.Any())
+                {
+                    <span>@item.BuyerFeedbacks.FirstOrDefault().Comment</span>
+                }
+            </td>
+            <td>
+                @if (item.BuyerFeedbacks != null && item.BuyerFeedbacks.Any())
+                {
+                    <span>@item.BuyerFeedbacks.FirstOrDefault().Rating</span>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
